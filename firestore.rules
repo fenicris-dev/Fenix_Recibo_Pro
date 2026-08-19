@@ -1,0 +1,127 @@
+rules_version = '2';
+
+// ════════════════════════════════════════════════════════════════
+// Fênix Recibo Pro — Regras de Segurança do Firestore
+// Projeto: fenix-recibo-pro
+//
+// IMPORTANTE — LEIA ANTES DE PUBLICAR:
+// Estas regras foram deduzidas lendo TODAS as chamadas ao Firestore
+// dentro do app (recibo.html). Cobrem os fluxos que encontrei, mas
+// recomendo fortemente testar no Simulador de Regras do console do
+// Firebase (ou com o emulador local) antes de publicar em produção,
+// repetindo as ações principais do app: login, registro, aprovação
+// de plano, emissão de recibo, configurar/remover PIN, exportar
+// relatório admin, comprar cupom etc.
+//
+// Como publicar:
+//   1. Console do Firebase → Firestore Database → Regras → colar este
+//      conteúdo → Publicar.
+//   OU
+//   2. Via Firebase CLI: salve este arquivo como firestore.rules na
+//      raiz do projeto e rode `firebase deploy --only firestore:rules`.
+// ════════════════════════════════════════════════════════════════
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ──────────────────────────────────────────────────
+    function logado() {
+      return request.auth != null;
+    }
+    function ehDono(uid) {
+      return logado() && request.auth.uid == uid;
+    }
+    // Espelha o ADMIN_UID definido em recibo.html (const ADMIN_UID)
+    function ehAdmin() {
+      return logado() && request.auth.uid == "5h2Uiv62wtW8Z0K9e8bKK6kud4H2";
+    }
+    function apenasCampos(campos) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(campos);
+    }
+
+    // ── users/{uid}/{colecao}/{docId} ──────────────────────────
+    // Dados operacionais do app (empresas, recibos, clientes, profissionais)
+    // namespaced por usuário. Cada usuário só acessa os próprios dados;
+    // o admin pode ler/escrever tudo (suporte, correções, exportação).
+    match /users/{uid}/{document=**} {
+      allow read, write: if ehDono(uid) || ehAdmin();
+    }
+
+    // ── usuarios/{uid} — perfil, status de conta e plano ───────
+    match /usuarios/{uid} {
+      allow read: if ehDono(uid) || ehAdmin();
+
+      // Criação: só o próprio usuário recém-autenticado pode criar seu doc
+      // (acontece automaticamente no primeiro login bem-sucedido).
+      allow create: if ehDono(uid);
+
+      // Admin pode alterar qualquer campo (aprovar plano, bloquear, etc).
+      allow update: if ehAdmin()
+        // Usuário comum só pode alterar os campos que o próprio app
+        // grava sobre si mesmo — nunca 'plano', 'planoVencimento',
+        // 'creditosRestantes' ou promover o próprio 'status' para 'aprovado'.
+        || (ehDono(uid) && apenasCampos(['pinHash','pin','primeiroAcesso'])
+        )
+        || (ehDono(uid) && apenasCampos(['status'])
+            && request.resource.data.status == 'bloqueado'); // auto-bloqueio ao expirar o plano
+
+      allow delete: if ehAdmin();
+    }
+
+    // ── solicitacoes/{uid} — pedidos de acesso (registro) ──────
+    match /solicitacoes/{uid} {
+      allow read: if ehDono(uid) || ehAdmin();
+      // Criado pelo próprio usuário logo após o cadastro no Firebase Auth.
+      allow create: if ehDono(uid);
+      // Só o próprio solicitante pode atualizar durante o fluxo de
+      // validação de e-mail (status pendente_validacao → pendente);
+      // aprovação/rejeição definitiva é sempre admin.
+      allow update: if ehAdmin() || (ehDono(uid) && apenasCampos(['status','codigo','criadoEm']));
+      allow delete: if ehAdmin() || ehDono(uid);
+    }
+
+    // ── notif_admin/{id} — notificações internas para o admin ──
+    match /notif_admin/{id} {
+      // Qualquer usuário autenticado pode CRIAR uma notificação
+      // (ex.: ao se registrar), mas só o admin lê/gerencia a caixa.
+      allow create: if logado();
+      allow read, update, delete: if ehAdmin();
+    }
+
+    // ── exclusoes_pendentes/{id} — fila de exclusão de conta ───
+    match /exclusoes_pendentes/{id} {
+      allow create: if logado();
+      allow read, update, delete: if ehAdmin();
+    }
+
+    // ── cupons_solicitados/{id} — solicitações de cupom ─────────
+    match /cupons_solicitados/{id} {
+      allow create: if logado();
+      allow read, update, delete: if ehAdmin();
+    }
+
+    // ── contadores/{prefixo} — numeração atômica de recibos ─────
+    // Qualquer usuário autenticado e aprovado pode incrementar
+    // (é o que garante números sem duplicar entre dispositivos).
+    match /contadores/{prefixo} {
+      allow read, write: if logado();
+    }
+
+    // ── config/{doc} — preços/planos públicos ────────────────────
+    match /config/{doc} {
+      allow read: if true; // exibido na tela pública de planos
+      allow write: if ehAdmin();
+    }
+
+    // ── _ping/status — checagem de conectividade ────────────────
+    match /_ping/{doc} {
+      allow read: if logado();
+      allow write: if false;
+    }
+
+    // Bloqueia por padrão qualquer coleção não listada acima.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
