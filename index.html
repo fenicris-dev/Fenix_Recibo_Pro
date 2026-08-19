@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Recibos Pro v4.3 | Fênix Soluções</title>
+<title>Recibos Pro v4.4 | Fênix Soluções</title>
 
 <!-- ══ PWA — MANIFEST INLINE ══ -->
 <link rel="manifest" id="pwa-manifest">
@@ -77,7 +77,7 @@
   // Registra um SW a partir de um blob URL para funcionar em arquivo único
   if('serviceWorker' in navigator){
     const SW_CODE = `
-const CACHE = 'fenix-recibos-v43';
+const CACHE = 'fenix-recibos-v44';
 const OFFLINE_ASSETS = []; // arquivo único — nada extra para cachear
 
 self.addEventListener('install', e => {
@@ -746,7 +746,7 @@ textarea{resize:vertical;min-height:68px}
     <div style="text-align:center;margin-top:12px;font-size:.78rem;color:#64748b">
       Não tem conta? <a href="#" onclick="mostrarRegistro()" style="color:#040798;font-weight:600">Solicitar acesso</a>
     </div>
-    <div class="lfoot" style="margin-top:14px;font-size:.65rem;line-height:1.8">© 2026 <strong>Cristiano Fênix</strong> | Fênix Soluções Tecnológicas<br><a href="https://wa.me/5579999680880" target="_blank" style="color:#25d366;text-decoration:none">💬 (79) 9 9968‑0880</a> &nbsp;·&nbsp; <a href="https://instagram.com/fenixsolucoestecnologicas" target="_blank" style="color:#e1306c;text-decoration:none">📷 @fenixsolucoestecnologicas</a><br><span style="color:#94a3b8"> v4.3</span></div>
+    <div class="lfoot" style="margin-top:14px;font-size:.65rem;line-height:1.8">© 2026 <strong>Cristiano Fênix</strong> | Fênix Soluções Tecnológicas<br><a href="https://wa.me/5579999680880" target="_blank" style="color:#25d366;text-decoration:none">💬 (79) 9 9968‑0880</a> &nbsp;·&nbsp; <a href="https://instagram.com/fenixsolucoestecnologicas" target="_blank" style="color:#e1306c;text-decoration:none">📷 @fenixsolucoestecnologicas</a><br><span style="color:#94a3b8"> v4.4</span></div>
   </div>
 </div>
 
@@ -796,12 +796,12 @@ textarea{resize:vertical;min-height:68px}
     <p id="sbEmail">—</p>
     <button class="logout-btn" onclick="doLogout()">⬅️ Sair da conta</button>
   </div>
-  <div class="sb-foot" style="font-size:.5rem;line-height:1.7;color:rgba(255,255,255,.28)">© 2026 Cristiano Fênix<br><a href="https://wa.me/5579999680880" target="_blank" style="color:rgba(255,255,255,.4);text-decoration:none">💬 (79) 9 9968‑0880</a><br><a href="https://instagram.com/fenixsolucoestecnologicas" target="_blank" style="color:rgba(255,255,255,.4);text-decoration:none">📷 @fenixsolucoestecnologicas</a><br><span style="color:rgba(255,255,255,.18)"> v4.3</span></div>
+  <div class="sb-foot" style="font-size:.5rem;line-height:1.7;color:rgba(255,255,255,.28)">© 2026 Cristiano Fênix<br><a href="https://wa.me/5579999680880" target="_blank" style="color:rgba(255,255,255,.4);text-decoration:none">💬 (79) 9 9968‑0880</a><br><a href="https://instagram.com/fenixsolucoestecnologicas" target="_blank" style="color:rgba(255,255,255,.4);text-decoration:none">📷 @fenixsolucoestecnologicas</a><br><span style="color:rgba(255,255,255,.18)"> v4.4</span></div>
 </aside>
 
 <div class="mw">
   <div class="tbar">
-    <h2 id="ttl">🏢 Empresas</h2><span style="font-size:.6rem;color:var(--gz);font-weight:400;opacity:.7;margin-left:6px"> v4.3</span>
+    <h2 id="ttl">🏢 Empresas</h2><span style="font-size:.6rem;color:var(--gz);font-weight:400;opacity:.7;margin-left:6px"> v4.4</span>
     <div class="etag" id="etag">⚠️ Sem empresa</div>
     <div class="conn-badge conn-online" id="connBadge">
       <span class="conn-dot"></span>
@@ -1975,7 +1975,6 @@ function voltarFormReg(){
   $i('rStep3').className='reg-step';
   if($i('regErr')) $i('regErr').style.display='none';
 }
-}
 
 // ── LOGIN ─────────────────────────────────────────────
 async function doLogin(){
@@ -2526,7 +2525,7 @@ async function limparExpirados(){
 // ══ DARK MODE ═════════════════════════════════════════
 
 // ══════════════════════════════════════════════════════
-// CONFIGURAÇÃO DE PLANOS — v4.3
+// CONFIGURAÇÃO DE PLANOS — v4.4
 // ══════════════════════════════════════════════════════
 const PLANOS_CONFIG = [
   {id:'trial',    nome:'Trial Gratuito', dias:7,    creditos:null, icone:'🎁', destaque:false},
@@ -3536,7 +3535,7 @@ function htmlR(r){
   </div>
   ${r.comAssin||r.comCarimbo||r.comProf?`<div class="assinado-tag">✅ ${[r.comAssin?'Assinatura empresa':'',r.comCarimbo?'Carimbo empresa':'',r.comProf?'Carimbo/assinatura profissional':''].filter(Boolean).join(' · ')} — ID: ${r.id}</div>`:''}
   ${r.obs?`<div class="robs">📝 ${r.obs}</div>`:''}
-  <div class="rfoot"><span style="font-size:8px;color:#888">${r.dataFmt} · ID: ${r.id}</span><span style="font-size:8px;color:#888">© 2026 Cristiano Fênix | Fênix Soluções</span><span style="font-size:8px;color:#888">💬 (79) 9 9968-0880 · 📷 @fenixsolucoestecnologicas ·  v4.3</span></div>
+  <div class="rfoot"><span style="font-size:8px;color:#888">${r.dataFmt} · ID: ${r.id}</span><span style="font-size:8px;color:#888">© 2026 Cristiano Fênix | Fênix Soluções</span><span style="font-size:8px;color:#888">💬 (79) 9 9968-0880 · 📷 @fenixsolucoestecnologicas ·  v4.4</span></div>
 </div>`;
 }
 
@@ -3818,7 +3817,7 @@ body{font-family:Arial,Helvetica,sans-serif;background:#fff;color:#1a1a2e;paddin
 </div>
 ${r.comAssin||r.comCarimbo||r.comProf?`<div class="assin-tag">✅ ${[r.comAssin?'Assinatura empresa':'',r.comCarimbo?'Carimbo empresa':'',r.comProf?'Carimbo/assinatura profissional':''].filter(Boolean).join(' · ')} — ID: ${r.id}</div>`:''}
 ${r.obs?`<div class="obs">📝 ${r.obs}</div>`:''}
-<div style='margin-top:10px;padding-top:7px;border-top:1px solid #dde3f0;display:flex;justify-content:space-between;font-size:8px;color:#888;flex-wrap:wrap;gap:2px'><span>${r.dataFmt} · ID: ${r.id}</span><span>© 2026 Cristiano Fênix | Fênix Soluções Tecnológicas</span><span>💬 (79) 9 9968-0880 · 📷 @fenixsolucoestecnologicas ·  v4.3</span></div>
+<div style='margin-top:10px;padding-top:7px;border-top:1px solid #dde3f0;display:flex;justify-content:space-between;font-size:8px;color:#888;flex-wrap:wrap;gap:2px'><span>${r.dataFmt} · ID: ${r.id}</span><span>© 2026 Cristiano Fênix | Fênix Soluções Tecnológicas</span><span>💬 (79) 9 9968-0880 · 📷 @fenixsolucoestecnologicas ·  v4.4</span></div>
 <button class="btn-p" onclick="window.print()">🖨️ Imprimir / Salvar como PDF</button>
 <script>window.addEventListener('load',function(){try{new QRCode(document.getElementById('qrdiv'),{text:${JSON.stringify(qrText)},width:82,height:82,colorDark:'#040798',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});setTimeout(function(){var p=document.createElement('p');p.style.cssText='font-size:7.5px;color:#aaa;margin-top:2px;text-align:center;line-height:1.4';p.textContent='Verificar autenticidade';document.getElementById('qrdiv').appendChild(p);},300);}catch(e){}});<\/script></body></html>`;
 }
@@ -4084,7 +4083,7 @@ td{padding:7px 8px;border-bottom:1px solid #dde3f0}.total{background:#eef0ff;fon
 <table><thead><tr><th>Número</th><th>Data</th><th>Cliente</th><th>Pagamento</th><th>Status</th><th style="text-align:right">Valor</th></tr></thead>
 <tbody>${rs.map(r=>`<tr><td style="font-family:monospace">${r.numero}</td><td>${r.dataBruta||'—'}</td><td>${r.cliente?.nome||'—'}</td><td>${r.pagto||'—'}</td><td>${stMap[r.status||'pago']}</td><td style="text-align:right;font-weight:600">R$ ${Number(r.valor).toFixed(2).replace('.',',')}</td></tr>`).join('')}</tbody></table>
 <div class="total">Total (excl. cancelados): R$ ${total.toFixed(2).replace('.',',')} — ${rs.filter(r=>r.status!=='cancelado').length} recibo(s)</div>
-<p class="foot">© 2026 Cristiano Fênix | Fênix Soluções Tecnológicas · 💬 (79) 9 9968-0880 · 📷 @fenixsolucoestecnologicas ·  v4.3</p>
+<p class="foot">© 2026 Cristiano Fênix | Fênix Soluções Tecnológicas · 💬 (79) 9 9968-0880 · 📷 @fenixsolucoestecnologicas ·  v4.4</p>
 <button class="btn-p" onclick="window.print()">🖨️ Imprimir / Salvar como PDF</button>
 </body></html>`;
   const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -4117,8 +4116,8 @@ function delCli(doc){if(!confirm('Remover?')) return;DB.C.del(doc);renderCli();n
 
 // ══ JSON IMPORT/EXPORT ════════════════════════════════
 function dl(c,n){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'application/json'}));a.download=n;a.click();URL.revokeObjectURL(a.href)}
-function expTudo(){dl(JSON.stringify({v:'4.3',em:new Date().toISOString(),empresas:DB.E.g(),recibos:DB.R.g(),clientes:DB.C.g(),profissionais:DB.P.g()},null,2),'recibos_backup_'+new Date().toISOString().slice(0,10)+'.json');notif('Backup exportado!')}
-function expSoR(){dl(JSON.stringify({v:'4.3',em:new Date().toISOString(),recibos:DB.R.g()},null,2),'recibos_'+new Date().toISOString().slice(0,10)+'.json');notif('Recibos exportados!')}
+function expTudo(){dl(JSON.stringify({v:'4.4',em:new Date().toISOString(),empresas:DB.E.g(),recibos:DB.R.g(),clientes:DB.C.g(),profissionais:DB.P.g()},null,2),'recibos_backup_'+new Date().toISOString().slice(0,10)+'.json');notif('Backup exportado!')}
+function expSoR(){dl(JSON.stringify({v:'4.4',em:new Date().toISOString(),recibos:DB.R.g()},null,2),'recibos_'+new Date().toISOString().slice(0,10)+'.json');notif('Recibos exportados!')}
 function impJ(inp){
   const f=inp.files[0];if(!f) return;
   const reader=new FileReader();
