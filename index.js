@@ -1,6 +1,6 @@
 /**
  * Fênix Recibo Pro — Cloud Functions
- * Projeto: fenix-recibo-pro
+ * Projeto: fenix-recibos-profissionais
  *
  * Processa a fila `exclusoes_pendentes` criada em recibo.html
  * (função excluirDefinitivo) e deleta de fato a conta no Firebase
@@ -11,7 +11,7 @@
  *   1. npm install -g firebase-tools          (se ainda não tiver)
  *   2. firebase login
  *   3. Na pasta do projeto: firebase init functions
- *      → escolha o projeto "fenix-recibo-pro", linguagem JavaScript
+ *      → escolha o projeto "fenix-recibos-profissionais", linguagem JavaScript
  *   4. Copie este arquivo para functions/index.js
  *   5. cd functions && npm install firebase-functions firebase-admin
  *   6. firebase deploy --only functions
